@@ -13,7 +13,6 @@
 // C-based API.
 //
 
-
 #include "node_embedding_api.h"
 #include "node.h"
 
