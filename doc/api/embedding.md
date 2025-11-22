@@ -167,7 +167,7 @@ int RunNodeInstance(MultiIsolatePlatform* platform,
 }
 ```
 
-# C embedder API
+## C runtime API
 
 <!--introduced_in=REPLACEME-->
 
@@ -175,20 +175,20 @@ While Node.js provides an extensive C++ embedding API that can be used from C++
 applications, the C-based API is useful when Node.js is embedded as a shared
 libnode library into C++ or non-C++ applications.
 
-## API design overview
+### API design overview
 
-One of the goals for the C based embedder API is to be ABI stable. It means that
+One of the goals for the C based runtime API is to be ABI stable. It means that
 applications must be able to use newer libnode versions without recompilation.
 The following design principles are targeting to achieve that goal.
 
-- Follow the best practices for the [node-api][] design and build on top of
+* Follow the best practices for the [node-api][] design and build on top of
   the [node-api][].
 
-## API reference
+### API reference
 
 #### Functions
 
-##### `node_embedding_main`
+##### `node_rt_main`
 
 <!-- YAML
 added: REPLACEME
@@ -196,18 +196,17 @@ added: REPLACEME
 
 > Stability: 1 - Experimental
 
-Runs Node.js runtime instance.
+Runs Node.js runtime instance the same way as the Node.js executable.
 
 ```c
-int32_t NAPI_CDECL node_embedding_main(
+int32_t NAPI_CDECL node_rt_main(
   int32_t argc,
   char* argv[]);
 ```
 
-- `[in] argc`: Number of items in the `argv` array.
-- `[in] argv`: CLI arguments as an array of zero terminated strings.
-
-Returns `int32_t` with instance exit code.
+* `[in] argc`: Number of items in the `argv` array.
+* `[in] argv`: CLI arguments as an array of zero terminated strings.
+  Returns `int32_t` with runtime instance exit code.
 
 [CLI options]: cli.md
 [`process.memoryUsage()`]: process.md#processmemoryusage
