@@ -121,6 +121,7 @@
       'src/node_debug.cc',
       'src/node_dir.cc',
       'src/node_dotenv.cc',
+      'src/node_embed_api.cc',
       'src/node_env_var.cc',
       'src/node_errors.cc',
       'src/node_external_reference.cc',
@@ -241,6 +242,7 @@
       'src/module_wrap.h',
       'src/node.h',
       'src/node_api.h',
+      'src/node_api_internals.h',
       'src/node_api_types.h',
       'src/node_binding.h',
       'src/node_blob.h',
@@ -253,6 +255,7 @@
       'src/node_debug.h',
       'src/node_dir.h',
       'src/node_dotenv.h',
+      'src/node_embed_api.h',
       'src/node_errors.h',
       'src/node_exit_code.h',
       'src/node_external_reference.h',
@@ -895,6 +898,7 @@
         '<(SHARED_INTERMEDIATE_DIR)' # for node_natives.h
       ],
       'dependencies': [
+        'tools/v8_gypfiles/abseil.gyp:abseil',
         'node_js2c#host',
       ],
 
@@ -954,9 +958,6 @@
           'sources': [
             'src/node_snapshot_stub.cc',
           ]
-        }],
-        [ 'node_use_bundled_v8!="false"', {
-          'dependencies': [ 'tools/v8_gypfiles/abseil.gyp:abseil' ],
         }],
         [ 'node_shared_gtest=="false"', {
           'dependencies': [
@@ -1278,6 +1279,7 @@
 
       'dependencies': [
         '<(node_lib_target_name)',
+        'tools/v8_gypfiles/abseil.gyp:abseil',
       ],
 
       'includes': [
@@ -1310,9 +1312,6 @@
         }],
         [ 'node_shared_gtest=="true"', {
           'libraries': [ '-lgtest_main' ],
-        }],
-        [ 'node_use_bundled_v8!="false"', {
-          'dependencies': [ 'tools/v8_gypfiles/abseil.gyp:abseil' ],
         }],
         [ 'node_shared_hdr_histogram=="false"', {
           'dependencies': [
@@ -1410,6 +1409,8 @@
       'sources': [
         'src/node_snapshot_stub.cc',
         'test/embedding/embedtest.cc',
+        'test/embedding/embedtest_c_api_main.c',
+        'test/embedding/embedtest_main.cc',
       ],
 
       'conditions': [
@@ -1552,7 +1553,7 @@
         [ 'OS=="mac"', {
           'libraries': [ '-framework CoreFoundation -framework Security' ],
         }],
-        [ 'node_shared_simdutf=="false" and node_use_bundled_v8!="false"', {
+        [ 'node_shared_simdutf=="false"', {
           'dependencies': [ 'tools/v8_gypfiles/v8.gyp:simdutf#host' ],
         }],
         [ 'node_shared_libuv=="false"', {
